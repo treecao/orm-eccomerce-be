@@ -22,8 +22,8 @@ router.get('/:id', async (req, res) => {
     const productData = await Product.findByPk(req.params.id, {
       include: [{model: Category}, {model: Tag}]
     })
-    if (!productData) { // display error if no user found
-      res.status(404).json({message: 'no user found with this ID!'});
+    if (!productData) {
+      res.status(404).json({message: 'no matching ID found'});
       return;
     }
     res.status(200).json(productData);
@@ -117,7 +117,7 @@ router.delete('/:id', async (req, res) => {
       }
     })
     if (!productData) {
-      res.status(404).json({message: 'no user found with that ID'});
+      res.status(404).json({message: 'no matching ID found'});
       return;
     }
   }
