@@ -7,24 +7,6 @@ class ProductTag extends Model {}
 ProductTag.init(
   {
     // define columns
-  },
-  {
-    sequelize,
-    timestamps: false,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'product_tag',
-  }
-);
-const { Model, DataTypes } = require('sequelize');
-
-const sequelize = require('../config/connection');
-
-class ProductTag extends Model {}
-
-ProductTag.init(
-  {
-    // define columns
     //produtTag id: integer, doesn't allow null values, set as primary key, uses auto increment
     id: {
       type: DataTypes.INTEGER,
@@ -57,7 +39,5 @@ ProductTag.init(
     modelName: 'product_tag',
   }
 );
-
-module.exports = ProductTag;
 
 module.exports = ProductTag;
