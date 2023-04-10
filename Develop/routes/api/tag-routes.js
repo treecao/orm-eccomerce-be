@@ -3,16 +3,17 @@ const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
 
-router.get('/', async (req, res) => {
-  // find all tags including its associated Product data
-  try {
-    const tagData = await Tag.findAll({
-      include: [{ model: Product }],
-    });
-    res.status(200).json(tagData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+router.get('/', (req, res) => {
+  Tag.findAll({
+    include: [
+      {
+        model: Product,
+        through: ProductTag,
+      },
+    ],
+  })
+  .then((tags) => res.status(200).json(tags))
+  .catch((err) => res.status(500).json(err))
 });
 
 router.get('/:id', async (req, res) => {
@@ -31,28 +32,21 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', (req, res) => {
   // create a new tag
-  try {
-    const tagData = await Tag.create({ tagName: req.body.tagName });
-    res.status(200).json(tagData);
-    console.log("New tag created");
-  } catch (err) {
-    res.status(400).json(err);
-  }
+Tag.create(req.body)
+.then((tag) => res.status(200).json(tag))
+.catch((err) => res.status(404).json(err))
 });
 
-router.put('/:id', async (req, res) => {
-  // update a tag's name by its `id` value
-  try {
-    const tagData = await Tag.update(req.body, {
-      where: {
-        id: req.params.id,
-      },
-    });
-  } catch (err) {
-    res.send(400).json(err);
-  }
+router.put('/:id', (req, res) => {
+  Tag.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  })
+  .then((tag) => res.status(200).json(tag))
+  .catch((err) => res.status(404).json(err))
 });
 
 
